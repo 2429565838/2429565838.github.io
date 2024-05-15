@@ -1,0 +1,340 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>前后端身份认证——node.js | GGbond的博客</title><meta name="author" content="猪猪侠"><meta name="copyright" content="猪猪侠"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前后端身份认证">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前后端身份认证——node.js">
+<meta property="og:url" content="https://2429565838.github.io/2024/04/25/%E5%89%8D%E5%90%8E%E7%AB%AF%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E2%80%94%E2%80%94node-js/index.html">
+<meta property="og:site_name" content="GGbond的博客">
+<meta property="og:description" content="前后端身份认证">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://2429565838.github.io/images/wallpaper/003.jpg">
+<meta property="article:published_time" content="2024-04-25T08:07:19.000Z">
+<meta property="article:modified_time" content="2024-04-25T08:45:43.276Z">
+<meta property="article:author" content="猪猪侠">
+<meta property="article:tag" content="Session JWt">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://2429565838.github.io/images/wallpaper/003.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://2429565838.github.io/2024/04/25/%E5%89%8D%E5%90%8E%E7%AB%AF%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E2%80%94%E2%80%94node-js/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-center"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '前后端身份认证——node.js',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-25 16:45:43'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 8 || hour >= 22
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/./images/wallpaper/001.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/./images/wallpaper/003.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="GGbond的博客"><img class="site-icon" src="/./images/wallpaper/002.jpg"/><span class="site-name">GGbond的博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">前后端身份认证——node.js</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-25T08:07:19.000Z" title="发表于 2024-04-25 16:07:19">2024-04-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-25T08:45:43.276Z" title="更新于 2024-04-25 16:45:43">2024-04-25</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="前后端身份认证——node.js"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="1-Web-开发模式"><a href="#1-Web-开发模式" class="headerlink" title="1. Web 开发模式"></a><strong>1. Web 开发模式</strong></h1><p>目前主流的 Web 开发模式有两种，分别是： </p>
+<p>① 基于服务端渲染的传统 Web 开发模式 </p>
+<p>② 基于前后端分离的新型 Web 开发模式</p>
+<h2 id="1-服务端渲染的-Web-开发模式"><a href="#1-服务端渲染的-Web-开发模式" class="headerlink" title="1. 服务端渲染的 Web 开发模式"></a><strong>1.</strong> <strong>服务端渲染的 Web 开发模式</strong></h2><p>服务端渲染的概念：服务器发送给客户端的 HTML 页面，是在服务器通过字符串的拼接，动态生成的。因此，客户端不需要使用 Ajax 这样的技术额外请求页面的数据。代码示例如下：</p>
+<p><img src="/../images/node.js/Snipaste_2024-04-25_16-13-11.png"></p>
+<h2 id="2-服务端渲染的优缺点"><a href="#2-服务端渲染的优缺点" class="headerlink" title="2. 服务端渲染的优缺点"></a><strong>2. 服务端渲染的优缺点</strong></h2><p>优点： </p>
+<p>① <strong>前端耗时少。</strong>因为服务器端负责动态生成 HTML 内容，浏览器只需要直接渲染页面即可。尤其是移动端，更省电。 </p>
+<p>② <strong>有利于SEO。</strong>因为服务器端响应的是完整的 HTML 页面内容，所以爬虫更容易爬取获得信息，更有利于 SEO。 </p>
+<p>缺点： </p>
+<p>① <strong>占用服务器端资源。</strong>即服务器端完成 HTML 页面内容的拼接，如果请求较多，会对服务器造成一定的访问压力。 </p>
+<p>② <strong>不利于前后端分离，开发效率低。</strong>使用服务器端渲染，则<strong>无法进行分工合作</strong>，尤其对于<strong>前端复杂度高</strong>的项目，不利于 </p>
+<p>项目高效开发。</p>
+<h2 id="3-前后端分离的-Web-开发模式"><a href="#3-前后端分离的-Web-开发模式" class="headerlink" title="3. 前后端分离的 Web 开发模式"></a><strong>3.</strong> <strong>前后端分离的 Web 开发模式</strong></h2><p>前后端分离的概念：前后端分离的开发模式，<strong>依赖于 Ajax 技术的广泛应用</strong>。简而言之，前后端分离的 Web 开发模式，就是<strong>后端只负责提供 API 接口，前端使用 Ajax 调用接口</strong>的开发模式。</p>
+<h2 id="4-前后端分离的优缺点"><a href="#4-前后端分离的优缺点" class="headerlink" title="4. 前后端分离的优缺点"></a><strong>4. 前后端分离的优缺点</strong></h2><p>优点： </p>
+<p>① <strong>开发体验好。</strong>前端专注于 UI 页面的开发，后端专注于api 的开发，且前端有更多的选择性。 </p>
+<p>② <strong>用户体验好。</strong>Ajax 技术的广泛应用，极大的提高了用户的体验，可以轻松实现页面的局部刷新。 </p>
+<p>③ <strong>减轻了服务器端的渲染压力。</strong>因为页面最终是在每个用户的浏览器中生成的。 </p>
+<p>缺点： </p>
+<p>① <strong>不利于 SEO。</strong>因为完整的 HTML 页面需要在客户端动态拼接完成，所以爬虫对无法爬取页面的有效信息。（解决方案：利用 Vue、React 等前端框架的 <strong>SSR</strong> （server side render）技术能够很好的解决 SEO 问题！）</p>
+<h2 id="5-如何选择-Web-开发模式"><a href="#5-如何选择-Web-开发模式" class="headerlink" title="5. 如何选择 Web 开发模式"></a><strong>5. 如何选择 Web 开发模式</strong></h2><p><strong>不谈业务场景而盲目选择使用何种开发模式都是耍流氓。</strong> </p>
+<p>⚫ 比如企业级网站，主要功能是展示而没有复杂的交互，并且需要良好的 SEO，则这时我们就需要使用服务器端渲染； </p>
+<p>⚫ 而类似后台管理项目，交互性比较强，不需要考虑 SEO，那么就可以使用前后端分离的开发模式。 </p>
+<p>另外，具体使用何种开发模式并不是绝对的，为了<strong>同时兼顾</strong>了<strong>首页的渲染速度</strong>和<strong>前后端分离的开发效率</strong>，一些网站采用了首屏服务器端渲染 + 其他页面前后端分离的开发模式</p>
+<h1 id="2-身份认证"><a href="#2-身份认证" class="headerlink" title="2 身份认证"></a><strong>2 身份认证</strong></h1><h2 id="1-什么是身份认证"><a href="#1-什么是身份认证" class="headerlink" title="1. 什么是身份认证"></a><strong>1. 什么是身份认证</strong></h2><p><strong>身份认证</strong>（Authentication）又称“身份验证”、“鉴权”，是指<strong>通过一定的手段，完成对用户身份的确认</strong>。 </p>
+<p>⚫ 日常生活中的身份认证随处可见，例如：高铁的验票乘车，手机的密码或指纹解锁，支付宝或微信的支付密码等。 </p>
+<p>⚫ 在 Web 开发中，也涉及到用户身份的认证，例如：各大网站的<strong>手机验证码登录</strong>、<strong>邮箱密码登录</strong>、<strong>二维码登录</strong>等。</p>
+<h2 id="2-为什么需要身份认证"><a href="#2-为什么需要身份认证" class="headerlink" title="2. 为什么需要身份认证"></a><strong>2. 为什么需要身份认证</strong></h2><p>身份认证的目的，是为了<strong>确认当前所声称为某种身份的用户，确实是所声称的用户</strong>。例如，你去找快递员取快递，你要怎 </p>
+<p>么证明这份快递是你的。 </p>
+<p>在互联网项目开发中，如何对用户的身份进行认证，是一个值得深入探讨的问题。例如，如何才能保证网站不会错误的将“马云的存款数额”显示到“马化腾的账户”上。</p>
+<h2 id="3-不同开发模式下的身份认证"><a href="#3-不同开发模式下的身份认证" class="headerlink" title="3. 不同开发模式下的身份认证"></a><strong>3. 不同开发模式下的身份认证</strong></h2><p>对于服务端渲染和前后端分离这两种开发模式来说，分别有着不同的身份认证方案： </p>
+<p>① 服务端渲染推荐使用 <strong>Session 认证机制</strong> </p>
+<p>② 前后端分离推荐使用 <strong>JWT 认证机制</strong></p>
+<h1 id="3-Session-认证机制"><a href="#3-Session-认证机制" class="headerlink" title="3 .Session 认证机制"></a><strong>3 .Session 认证机制</strong></h1><h2 id="1-HTTP-协议的无状态性"><a href="#1-HTTP-协议的无状态性" class="headerlink" title="1. HTTP 协议的无状态性"></a><strong>1. HTTP 协议的无状态性</strong></h2><p>了解 HTTP 协议的无状态性是进一步学习 Session 认证机制的必要前提。 </p>
+<p>HTTP 协议的无状态性，指的是客户端<strong>的每次 HTTP 请求都是独立的</strong>，连续多个请求之间没有直接的关系，<strong>服务器不会</strong> <strong>主动保留每次 HTTP 请求的状态</strong>。</p>
+<p> 意思是：服务器不会记住每一次访问的浏览器</p>
+<h2 id="2-如何突破-HTTP-无状态的限制"><a href="#2-如何突破-HTTP-无状态的限制" class="headerlink" title="2. 如何突破 HTTP 无状态的限制"></a><strong>2.</strong> <strong>如何突破</strong> HTTP 无状态的限制</h2><p>对于超市来说，为了方便收银员在进行结算时给 VIP 用户打折，超市可以为每个 VIP 用户发放会员卡。</p>
+<p>注意：现实生活中的<strong>会员卡身份认证方式</strong>，在 Web 开发中的专业术语叫做 <strong>Cookie</strong>。</p>
+<h2 id="3-什么是-Cookie"><a href="#3-什么是-Cookie" class="headerlink" title="3. 什么是 Cookie"></a><strong>3. 什么是</strong> <strong>Cookie</strong></h2><p>Cookie 是<strong>存储在用户浏览器中的一段不超过 4 KB 的字符串</strong>。它由一个名称（Name）、一个值（Value）和其它几个用于控制 Cookie 有效期、安全性、使用范围的可选属性组成。 </p>
+<p>不同域名下的 Cookie 各自独立，每当客户端发起请求时，会<strong>自动</strong>把<strong>当前域名下</strong>所有<strong>未过期的 Cookie</strong> 一同发送到服务器。 </p>
+<p><strong>Cookie的几大特性：</strong> </p>
+<p>① 自动发送 </p>
+<p>② 域名独立 </p>
+<p>③ 过期时限 </p>
+<p>④ 4KB 限制</p>
+<h2 id="4-Cookie-在身份认证中的作用"><a href="#4-Cookie-在身份认证中的作用" class="headerlink" title="4. Cookie 在身份认证中的作用"></a><strong>4. Cookie 在身份认证中的作用</strong></h2><p>客户端第一次请求服务器的时候，服务器<strong>通过响应头的形式</strong>，向客户端发送一个身份认证的 Cookie，客户端会自动将 Cookie 保存在浏览器中。 </p>
+<p>随后，当客户端浏览器每次请求服务器的时候，浏览器会<strong>自动</strong>将身份认证相关的 Cookie，<strong>通过请求头的形式</strong>发送给服务器，服务器即可验明客户端的身份。 </p>
+<p><img src="/../images/node.js/Snipaste_2024-04-25_16-21-15.png"></p>
+<h2 id="5-Cookie-不具有安全性"><a href="#5-Cookie-不具有安全性" class="headerlink" title="5. Cookie 不具有安全性"></a><strong>5. Cookie</strong> <strong>不具有安全性</strong></h2><p>由于 Cookie 是存储在浏览器中的，而且<strong>浏览器也提供了读写 Cookie 的 API</strong>，因此 <strong>Cookie 很容易被伪造</strong>，不具有安全性。因此不建议服务器将重要的隐私数据，通过 Cookie 的形式发送给浏览器。</p>
+<p><strong>注意：千万不要使用 Cookie 存储重要且隐私的数据</strong>！比如用户的身份信息、密码等。</p>
+<h2 id="6-提高身份认证的安全性"><a href="#6-提高身份认证的安全性" class="headerlink" title="6. 提高身份认证的安全性"></a><strong>6.</strong> <strong>提高身份认证的安全性</strong></h2><p>为了防止客户伪造会员卡，收银员在拿到客户出示的会员卡之后，可以<strong>在收银机上进行刷卡认证</strong>。只有收银机确认存在的会员卡，才能被正常使用。 </p>
+<p>这种“<strong>会员卡</strong> <strong>+</strong> <strong>刷卡认证</strong>”的设计理念，就是 Session 认证机制的精髓。</p>
+<h2 id="7-Session-的工作原理"><a href="#7-Session-的工作原理" class="headerlink" title="7. Session 的工作原理"></a><strong>7.</strong> <strong>Session</strong> <strong>的工作原理</strong></h2><p><img src="/../images/node.js/Snipaste_2024-04-25_16-23-39.png"></p>
+<h1 id="4-在-Express-中使用-Session-认证"><a href="#4-在-Express-中使用-Session-认证" class="headerlink" title="4 .在 Express 中使用 Session 认证"></a><strong>4 .在 Express 中使用 Session 认证</strong></h1><h2 id="1-安装-express-session-中间件"><a href="#1-安装-express-session-中间件" class="headerlink" title="1. 安装 express-session 中间件"></a><strong>1.</strong> <strong>安装</strong> <strong>express-session 中间件</strong></h2><p>在 Express 项目中，只需要安装 express-session 中间件，即可在项目中使用 Session 认证：</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">npm i express-session</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-配置-express-session-中间件"><a href="#2-配置-express-session-中间件" class="headerlink" title="2. 配置 express-session 中间件"></a><strong>2.</strong> <strong>配置</strong> <strong>express-session 中间件</strong></h2><p>express-session 中间件安装成功后，需要通过 app.use() 来注册 session 中间件，示例代码如下：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> session = <span class="built_in">require</span>(<span class="string">&#x27;express-session&#x27;</span>)</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(<span class="title function_">session</span>(&#123;</span><br><span class="line">    <span class="attr">secret</span>:<span class="string">&#x27;keybord cat&#x27;</span>,		<span class="comment">// secret 属性的值可以为任意字符串，用于加密</span></span><br><span class="line">    <span class="attr">resave</span>: <span class="literal">false</span>.				<span class="comment">// 固定用法</span></span><br><span class="line">    <span class="attr">saveUninitialized</span>: <span class="literal">true</span>,	<span class="comment">// 固定用法</span></span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-向-session-中存数据"><a href="#3-向-session-中存数据" class="headerlink" title="3. 向 session 中存数据"></a><strong>3. 向 session 中存数据</strong></h2><p>当 express-session 中间件配置成功后，即可通过 <strong>req.session</strong> 来访问和使用 session 对象，从而存储用户的关键信息：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 登录的 API 接口</span></span><br><span class="line">app.<span class="title function_">post</span>(<span class="string">&#x27;/api/login&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 判断用户提交的登录信息是否正确</span></span><br><span class="line">  <span class="keyword">if</span> (req.<span class="property">body</span>.<span class="property">username</span> !== <span class="string">&#x27;admin&#x27;</span> || req.<span class="property">body</span>.<span class="property">password</span> !== <span class="string">&#x27;000000&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> res.<span class="title function_">send</span>(&#123; <span class="attr">status</span>: <span class="number">1</span>, <span class="attr">msg</span>: <span class="string">&#x27;登录失败&#x27;</span> &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// TODO_02：请将登录成功后的用户信息，保存到 Session 中</span></span><br><span class="line">  <span class="comment">// 注意：只有成功配置了 express-session 这个中间件之后，才能够通过 req 点出来 session 这个属性</span></span><br><span class="line">  req.<span class="property">session</span>.<span class="property">user</span> = req.<span class="property">body</span> <span class="comment">// 用户的信息</span></span><br><span class="line">  req.<span class="property">session</span>.<span class="property">islogin</span> = <span class="literal">true</span> <span class="comment">// 用户的登录状态</span></span><br><span class="line"></span><br><span class="line">  res.<span class="title function_">send</span>(&#123; <span class="attr">status</span>: <span class="number">0</span>, <span class="attr">msg</span>: <span class="string">&#x27;登录成功&#x27;</span> &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-从-session-中取数据"><a href="#4-从-session-中取数据" class="headerlink" title="4. 从 session 中取数据"></a><strong>4. 从 session 中取数据</strong></h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 获取用户姓名的接口</span></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/api/username&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// TODO_03：请从 Session 中获取用户的名称，响应给客户端</span></span><br><span class="line">  <span class="keyword">if</span> (!req.<span class="property">session</span>.<span class="property">islogin</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> res.<span class="title function_">send</span>(&#123; <span class="attr">status</span>: <span class="number">1</span>, <span class="attr">msg</span>: <span class="string">&#x27;fail&#x27;</span> &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  res.<span class="title function_">send</span>(&#123;</span><br><span class="line">    <span class="attr">status</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">msg</span>: <span class="string">&#x27;success&#x27;</span>,</span><br><span class="line">    <span class="attr">username</span>: req.<span class="property">session</span>.<span class="property">user</span>.<span class="property">username</span>,</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-清空-session"><a href="#5-清空-session" class="headerlink" title="5. 清空 session"></a><strong>5. 清空 session</strong></h2><p>调用 <strong>req.session.destroy()</strong> 函数，即可清空服务器保存的 session 信息。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 退出登录的接口</span></span><br><span class="line">app.<span class="title function_">post</span>(<span class="string">&#x27;/api/logout&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// TODO_04：清空 Session 信息</span></span><br><span class="line">  req.<span class="property">session</span>.<span class="title function_">destroy</span>()</span><br><span class="line">  res.<span class="title function_">send</span>(&#123;</span><br><span class="line">    <span class="attr">status</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">msg</span>: <span class="string">&#x27;退出登录成功&#x27;</span>,</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="5-JWT-认证机制"><a href="#5-JWT-认证机制" class="headerlink" title="5. JWT 认证机制"></a><strong>5. JWT 认证机制</strong></h1><h2 id="1-了解-Session-认证的局限性"><a href="#1-了解-Session-认证的局限性" class="headerlink" title="1. 了解 Session 认证的局限性"></a><strong>1. 了解 Session 认证的局限性</strong></h2><p>Session 认证机制需要配合 Cookie 才能实现。由于 Cookie 默认<strong>不支持跨域访问</strong>，所以，当涉及到前端跨域请求后端接口的时候，<strong>需要做很多额外的配置</strong>，才能实现跨域 Session 认证。 </p>
+<p>注意： </p>
+<p>⚫ 当前端请求后端接口<strong>不存在跨域问题</strong>的时候，<strong>推荐使用 Session</strong> 身份认证机制。 </p>
+<p>⚫ 当前端需要跨域请求后端接口的时候，不推荐使用 Session 身份认证机制，推荐使用 JWT 认证机制。</p>
+<h2 id="2-什么是-JWT"><a href="#2-什么是-JWT" class="headerlink" title="2. 什么是 JWT"></a><strong>2. 什么是 JWT</strong></h2><p>JWT（英文全称：JSON Web Token）是目前<strong>最流行</strong>的<strong>跨域认证解决方案</strong></p>
+<h2 id="3-JWT-的工作原理"><a href="#3-JWT-的工作原理" class="headerlink" title="3. JWT 的工作原理"></a><strong>3. JWT 的工作原理</strong></h2><p><img src="/../images/node.js/Snipaste_2024-04-25_16-30-56.png"></p>
+<p>总结：用户的信息通过 Token 字符串的形式，保存在客户端浏览器中。服务器通过还原 Token 字符串的形式来认证用户的身份。</p>
+<h2 id="4-JWT-的组成部分"><a href="#4-JWT-的组成部分" class="headerlink" title="4. JWT 的组成部分"></a><strong>4. JWT 的组成部分</strong></h2><p>JWT 通常由三部分组成，分别是 Header（头部）、Payload（有效荷载）、Signature（签名）。 </p>
+<p>三者之间使用英文的“.”分隔，格式如下：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="title class_">Header</span>.<span class="property">Payload</span>.<span class="property">Signature</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-JWT-的三个部分各自代表的含义"><a href="#5-JWT-的三个部分各自代表的含义" class="headerlink" title="5. JWT 的三个部分各自代表的含义"></a><strong>5. JWT 的三个部分各自代表的含义</strong></h2><p>JWT 的三个组成部分，从前到后分别是 Header、Payload、Signature。 </p>
+<p>其中： </p>
+<p>⚫ <strong>Payload</strong> 部分<strong>才是真正的用户信息</strong>，它是用户信息经过加密之后生成的字符串。 </p>
+<p>⚫ Header 和 Signature 是<strong>安全性相关</strong>的部分，只是为了保证 Token 的安全性。</p>
+<p><img src="/../images/node.js/Snipaste_2024-04-25_16-34-14.png"></p>
+<h2 id="6-JWT-的使用方式"><a href="#6-JWT-的使用方式" class="headerlink" title="6. JWT 的使用方式"></a><strong>6. JWT 的使用方式</strong></h2><p>客户端收到服务器返回的 JWT 之后，通常会将它储存在 localStorage 或 sessionStorage 中。 </p>
+<p>此后，客户端每次与服务器通信，都要带上这个 JWT 的字符串，从而进行身份认证。推荐的做法是<strong>把 JWT 放在 HTTP</strong>  <strong>请求头的 Authorization 字段中</strong>，格式如下：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="title class_">Authorization</span> : <span class="title class_">Bearer</span> &lt;token&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="6-在-Express-中使用-JWT"><a href="#6-在-Express-中使用-JWT" class="headerlink" title="6 .在 Express 中使用 JWT"></a><strong>6 .在 Express 中使用 JWT</strong></h1><h2 id="1-安装-JWT-相关的包"><a href="#1-安装-JWT-相关的包" class="headerlink" title="1. 安装 JWT 相关的包"></a><strong>1.</strong> <strong>安装</strong> <strong>JWT 相关的包</strong></h2><p>运行如下命令，安装如下两个 JWT 相关的包： </p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">nmp i jsonwebtoken express-jwt</span><br></pre></td></tr></table></figure>
+
+<p>其中： </p>
+<p>⚫ <strong>jsonwebtoken</strong> 用于<strong>生成 JWT 字符串</strong> </p>
+<p>⚫ <strong>express-jwt</strong> 用于<strong>将 JWT 字符串解析还原成 JSON 对象</strong></p>
+<h2 id="2-导入-JWT-相关的包"><a href="#2-导入-JWT-相关的包" class="headerlink" title="2. 导入 JWT 相关的包**"></a><strong>2.</strong> <strong>导入</strong> JWT 相关的包**</h2><p>使用 <strong>require()</strong> 函数，分别导入 JWT 相关的两个包</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> jwt = <span class="built_in">require</span>(<span class="string">&#x27;jsonwebtoken&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> expressJWT = <span class="built_in">require</span>(<span class="string">&#x27;express-jwt&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-定义-secret-密钥"><a href="#3-定义-secret-密钥" class="headerlink" title="3. 定义 secret 密钥"></a><strong>3. 定义 secret 密钥</strong></h2><p>为了保证 JWT 字符串的安全性，防止 JWT 字符串在网络传输过程中被别人破解，我们需要专门定义一个用于<strong>加密</strong>和<strong>解密</strong>的 secret 密钥： </p>
+<p>① 当生成 JWT 字符串的时候，需要使用 secret 密钥对用户的信息进行加密，最终得到加密好的 JWT 字符串 </p>
+<p>② 当把 JWT 字符串解析还原成 JSON 对象的时候，需要使用 secret 密钥进行解密</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// TODO_02：定义 secret 密钥，建议将密钥命名为 secretKey</span></span><br><span class="line"><span class="keyword">const</span> secretKey = <span class="string">&#x27;itheima No1 ^_^&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-在登录成功后生成-JWT-字符串"><a href="#4-在登录成功后生成-JWT-字符串" class="headerlink" title="4. 在登录成功后生成 JWT 字符串"></a><strong>4. 在登录成功后生成 JWT 字符串</strong></h2><p>调用 <strong>jsonwebtoken</strong> 包提供的 <strong>sign()</strong> 方法，将用户的信息加密成 JWT 字符串，响应给客户端：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">  <span class="comment">// 登录成功</span></span><br><span class="line">  <span class="comment">// TODO_03：在登录成功之后，调用 jwt.sign() 方法生成 JWT 字符串。并通过 token 属性发送给客户端</span></span><br><span class="line">  <span class="comment">// 参数1：用户的信息对象</span></span><br><span class="line">  <span class="comment">// 参数2：加密的秘钥</span></span><br><span class="line">  <span class="comment">// 参数3：配置对象，可以配置当前 token 的有效期</span></span><br><span class="line">  <span class="comment">// 记住：千万不要把密码加密到 token 字符中</span></span><br><span class="line"><span class="keyword">const</span> tokenStr = jwt.<span class="title function_">sign</span>(&#123; <span class="attr">username</span>: userinfo.<span class="property">username</span> &#125;, secretKey, &#123; <span class="attr">expiresIn</span>: <span class="string">&#x27;30s&#x27;</span> &#125;)</span><br><span class="line">  res.<span class="title function_">send</span>(&#123;</span><br><span class="line">    <span class="attr">status</span>: <span class="number">200</span>,</span><br><span class="line">    <span class="attr">message</span>: <span class="string">&#x27;登录成功！&#x27;</span>,</span><br><span class="line">    <span class="attr">token</span>: tokenStr, <span class="comment">// 要发送给客户端的 token 字符串</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/../images/node.js/Snipaste_2024-04-25_16-40-26.png"></p>
+<h2 id="5-将-JWT-字符串还原为-JSON-对象"><a href="#5-将-JWT-字符串还原为-JSON-对象" class="headerlink" title="5. 将 JWT 字符串还原为 JSON 对象"></a><strong>5. 将</strong> <strong>JWT 字符串还原为</strong> <strong>JSON 对象</strong></h2><p>客户端每次在访问那些有权限接口的时候，都需要主动通过<strong>请求头中的 Authorization 字段</strong>，将 Token 字符串发 </p>
+<p>送到服务器进行身份认证。 </p>
+<p>此时，服务器可以通过 <strong>express-jwt</strong> 这个中间件，自动将客户端发送过来的 Token 解析还原成 JSON 对象：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// TODO_04：注册将 JWT 字符串解析还原成 JSON 对象的中间件</span></span><br><span class="line"><span class="comment">// 注意：只要配置成功了 express-jwt 这个中间件，就可以把解析出来的用户信息，挂载到 req.user 属性上</span></span><br><span class="line"><span class="comment">//.unless(&#123; path: [/^\/api\//] &#125;)) :是以/api 开头的不用验证</span></span><br><span class="line">app.<span class="title function_">use</span>(<span class="title function_">expressJWT</span>(&#123; <span class="attr">secret</span>: secretKey &#125;).<span class="title function_">unless</span>(&#123; <span class="attr">path</span>: [<span class="regexp">/^\/api\//</span>] &#125;))</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>6. 使用 req.user 获取用户信息</strong> </p>
+<p>当 express-jwt 这个中间件配置成功之后，即可在那些有权限的接口中，使用 <strong>req.user</strong> 对象，来访问从 JWT 字符串中解析出来的用户信息了，示例代码如下：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 这是一个有权限的 API 接口</span></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/admin/getinfo&#x27;</span>, <span class="keyword">function</span> (<span class="params">req, res</span>) &#123;</span><br><span class="line">  <span class="comment">// TODO_05：使用 req.user 获取用户信息，并使用 data 属性将用户信息发送给客户端</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(req.<span class="property">user</span>)</span><br><span class="line">  res.<span class="title function_">send</span>(&#123;</span><br><span class="line">    <span class="attr">status</span>: <span class="number">200</span>,</span><br><span class="line">    <span class="attr">message</span>: <span class="string">&#x27;获取用户信息成功！&#x27;</span>,</span><br><span class="line">    <span class="attr">data</span>: req.<span class="property">user</span>, <span class="comment">// 要发送给客户端的用户信息</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>7. 捕获解析 JWT 失败后产生的错误</strong> </p>
+<p>当使用 express-jwt 解析 Token 字符串时，如果客户端发送过来的 Token 字符串<strong>过期</strong>或<strong>不合法</strong>，会产生一个<strong>解析失败</strong> 的错误，影响项目的正常运行。我们可以通过 <strong>Express 的错误中间件</strong>，捕获这个错误并进行相关的处理，示例代码如下：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// TODO_06：使用全局错误处理中间件，捕获解析 JWT 失败后产生的错误</span></span><br><span class="line">app.<span class="title function_">use</span>(<span class="function">(<span class="params">err, req, res, next</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 这次错误是由 token 解析失败导致的</span></span><br><span class="line">  <span class="keyword">if</span> (err.<span class="property">name</span> === <span class="string">&#x27;UnauthorizedError&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> res.<span class="title function_">send</span>(&#123;</span><br><span class="line">      <span class="attr">status</span>: <span class="number">401</span>,</span><br><span class="line">      <span class="attr">message</span>: <span class="string">&#x27;无效的token&#x27;</span>,</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  res.<span class="title function_">send</span>(&#123;</span><br><span class="line">    <span class="attr">status</span>: <span class="number">500</span>,</span><br><span class="line">    <span class="attr">message</span>: <span class="string">&#x27;未知的错误&#x27;</span>,</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://2429565838.github.io">猪猪侠</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://2429565838.github.io/2024/04/25/%E5%89%8D%E5%90%8E%E7%AB%AF%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E2%80%94%E2%80%94node-js/">https://2429565838.github.io/2024/04/25/%E5%89%8D%E5%90%8E%E7%AB%AF%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E2%80%94%E2%80%94node-js/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://2429565838.github.io" target="_blank">GGbond的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Session-JWt/">Session JWt</a></div><div class="post_share"><div class="social-share" data-image="/./images/wallpaper/003.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/26/Mixins%E7%9A%84%E4%BD%BF%E7%94%A8/" title="Mixins的使用"><img class="cover" src="/./images/wallpaper/003.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Mixins的使用</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/25/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E2%80%94%E2%80%94node-js/" title="数据库与身份认证——node.js"><img class="cover" src="/./images/wallpaper/002.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数据库与身份认证——node.js</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/./images/wallpaper/001.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">猪猪侠</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/2429565838" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2429565838@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="mailto:2429565838@qq.com" target="_blank" title="心情"><i class="fa-solid fa-face-dizzy" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">猪猪侠欢迎你！🙂</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Web-%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">1. Web 开发模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93%E7%9A%84-Web-%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">1. 服务端渲染的 Web 开发模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">2. 服务端渲染的优缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E7%9A%84-Web-%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text">3. 前后端分离的 Web 开发模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">1.4.</span> <span class="toc-text">4. 前后端分离的优缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9-Web-%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.5.</span> <span class="toc-text">5. 如何选择 Web 开发模式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81"><span class="toc-number">2.</span> <span class="toc-text">2 身份认证</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81"><span class="toc-number">2.1.</span> <span class="toc-text">1. 什么是身份认证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81"><span class="toc-number">2.2.</span> <span class="toc-text">2. 为什么需要身份认证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E4%B8%8D%E5%90%8C%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F%E4%B8%8B%E7%9A%84%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81"><span class="toc-number">2.3.</span> <span class="toc-text">3. 不同开发模式下的身份认证</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Session-%E8%AE%A4%E8%AF%81%E6%9C%BA%E5%88%B6"><span class="toc-number">3.</span> <span class="toc-text">3 .Session 认证机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-HTTP-%E5%8D%8F%E8%AE%AE%E7%9A%84%E6%97%A0%E7%8A%B6%E6%80%81%E6%80%A7"><span class="toc-number">3.1.</span> <span class="toc-text">1. HTTP 协议的无状态性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%A6%82%E4%BD%95%E7%AA%81%E7%A0%B4-HTTP-%E6%97%A0%E7%8A%B6%E6%80%81%E7%9A%84%E9%99%90%E5%88%B6"><span class="toc-number">3.2.</span> <span class="toc-text">2. 如何突破 HTTP 无状态的限制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E4%BB%80%E4%B9%88%E6%98%AF-Cookie"><span class="toc-number">3.3.</span> <span class="toc-text">3. 什么是 Cookie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Cookie-%E5%9C%A8%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">3.4.</span> <span class="toc-text">4. Cookie 在身份认证中的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Cookie-%E4%B8%8D%E5%85%B7%E6%9C%89%E5%AE%89%E5%85%A8%E6%80%A7"><span class="toc-number">3.5.</span> <span class="toc-text">5. Cookie 不具有安全性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%8F%90%E9%AB%98%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7"><span class="toc-number">3.6.</span> <span class="toc-text">6. 提高身份认证的安全性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-Session-%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">3.7.</span> <span class="toc-text">7. Session 的工作原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%9C%A8-Express-%E4%B8%AD%E4%BD%BF%E7%94%A8-Session-%E8%AE%A4%E8%AF%81"><span class="toc-number">4.</span> <span class="toc-text">4 .在 Express 中使用 Session 认证</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-express-session-%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-number">4.1.</span> <span class="toc-text">1. 安装 express-session 中间件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE-express-session-%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-number">4.2.</span> <span class="toc-text">2. 配置 express-session 中间件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%90%91-session-%E4%B8%AD%E5%AD%98%E6%95%B0%E6%8D%AE"><span class="toc-number">4.3.</span> <span class="toc-text">3. 向 session 中存数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%BB%8E-session-%E4%B8%AD%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="toc-number">4.4.</span> <span class="toc-text">4. 从 session 中取数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%B8%85%E7%A9%BA-session"><span class="toc-number">4.5.</span> <span class="toc-text">5. 清空 session</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-JWT-%E8%AE%A4%E8%AF%81%E6%9C%BA%E5%88%B6"><span class="toc-number">5.</span> <span class="toc-text">5. JWT 认证机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BA%86%E8%A7%A3-Session-%E8%AE%A4%E8%AF%81%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-number">5.1.</span> <span class="toc-text">1. 了解 Session 认证的局限性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AF-JWT"><span class="toc-number">5.2.</span> <span class="toc-text">2. 什么是 JWT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-JWT-%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">5.3.</span> <span class="toc-text">3. JWT 的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-JWT-%E7%9A%84%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86"><span class="toc-number">5.4.</span> <span class="toc-text">4. JWT 的组成部分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-JWT-%E7%9A%84%E4%B8%89%E4%B8%AA%E9%83%A8%E5%88%86%E5%90%84%E8%87%AA%E4%BB%A3%E8%A1%A8%E7%9A%84%E5%90%AB%E4%B9%89"><span class="toc-number">5.5.</span> <span class="toc-text">5. JWT 的三个部分各自代表的含义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-JWT-%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">5.6.</span> <span class="toc-text">6. JWT 的使用方式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E5%9C%A8-Express-%E4%B8%AD%E4%BD%BF%E7%94%A8-JWT"><span class="toc-number">6.</span> <span class="toc-text">6 .在 Express 中使用 JWT</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-JWT-%E7%9B%B8%E5%85%B3%E7%9A%84%E5%8C%85"><span class="toc-number">6.1.</span> <span class="toc-text">1. 安装 JWT 相关的包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AF%BC%E5%85%A5-JWT-%E7%9B%B8%E5%85%B3%E7%9A%84%E5%8C%85"><span class="toc-number">6.2.</span> <span class="toc-text">2. 导入 JWT 相关的包**</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AE%9A%E4%B9%89-secret-%E5%AF%86%E9%92%A5"><span class="toc-number">6.3.</span> <span class="toc-text">3. 定义 secret 密钥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%9C%A8%E7%99%BB%E5%BD%95%E6%88%90%E5%8A%9F%E5%90%8E%E7%94%9F%E6%88%90-JWT-%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">6.4.</span> <span class="toc-text">4. 在登录成功后生成 JWT 字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%B0%86-JWT-%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%98%E5%8E%9F%E4%B8%BA-JSON-%E5%AF%B9%E8%B1%A1"><span class="toc-number">6.5.</span> <span class="toc-text">5. 将 JWT 字符串还原为 JSON 对象</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/05/14/%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98/" title="管理系统权限问题"><img src="/./images/wallpaper/001.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="管理系统权限问题"/></a><div class="content"><a class="title" href="/2024/05/14/%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98/" title="管理系统权限问题">管理系统权限问题</a><time datetime="2024-05-14T13:47:30.000Z" title="发表于 2024-05-14 21:47:30">2024-05-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/%E5%88%97%E8%A1%A8%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%A0%91%E5%BD%A2%E6%95%B0%E6%8D%AE%E6%96%B9%E6%B3%95/" title="数组列表数据转树形数据方法"><img src="/./images/wallpaper/001.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数组列表数据转树形数据方法"/></a><div class="content"><a class="title" href="/2024/05/13/%E5%88%97%E8%A1%A8%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%A0%91%E5%BD%A2%E6%95%B0%E6%8D%AE%E6%96%B9%E6%B3%95/" title="数组列表数据转树形数据方法">数组列表数据转树形数据方法</a><time datetime="2024-05-13T08:26:33.000Z" title="发表于 2024-05-13 16:26:33">2024-05-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/" title="前端学习遇到的问题以及处理方法"><img src="/./images/wallpaper/003.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="前端学习遇到的问题以及处理方法"/></a><div class="content"><a class="title" href="/2024/05/13/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/" title="前端学习遇到的问题以及处理方法">前端学习遇到的问题以及处理方法</a><time datetime="2024-05-13T06:04:00.000Z" title="发表于 2024-05-13 14:04:00">2024-05-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/10/vue-%E8%A7%A3%E5%86%B3%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E7%9A%84%E5%B1%9E%E6%80%A7%E5%8F%98%E6%88%90%E5%93%8D%E5%BA%94%E5%BC%8F/" title="vue-解决动态添加的属性变成响应式"><img src="/./images/wallpaper/001.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="vue-解决动态添加的属性变成响应式"/></a><div class="content"><a class="title" href="/2024/05/10/vue-%E8%A7%A3%E5%86%B3%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E7%9A%84%E5%B1%9E%E6%80%A7%E5%8F%98%E6%88%90%E5%93%8D%E5%BA%94%E5%BC%8F/" title="vue-解决动态添加的属性变成响应式">vue-解决动态添加的属性变成响应式</a><time datetime="2024-05-10T13:16:26.000Z" title="发表于 2024-05-10 21:16:26">2024-05-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/08/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E7%8E%AF%E5%A2%83%E5%8C%BA%E5%88%86/" title="如何进行环境区分"><img src="/./images/wallpaper/001.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何进行环境区分"/></a><div class="content"><a class="title" href="/2024/05/08/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E7%8E%AF%E5%A2%83%E5%8C%BA%E5%88%86/" title="如何进行环境区分">如何进行环境区分</a><time datetime="2024-05-08T13:33:46.000Z" title="发表于 2024-05-08 21:33:46">2024-05-08</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/./images/wallpaper/003.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 猪猪侠</div><div class="footer_custom_text">(❤ ω ❤)</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
